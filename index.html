@@ -5,17 +5,68 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>NeckPac</title>
     <link rel="stylesheet" href="css/style.css" />
+    <script defer src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-core@4.22.0/dist/tf-core.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-converter@4.22.0/dist/tf-converter.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-webgl@4.22.0/dist/tf-backend-webgl.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/@tensorflow-models/face-landmarks-detection@1.0.6/dist/face-landmarks-detection.min.js"></script>
   </head>
   <body>
     <main class="app-shell" aria-labelledby="app-title">
       <section class="hero">
         <p class="eyebrow">NeckPac POC</p>
         <h1 id="app-title">Exercise your neck, eat the dots.</h1>
-        <p class="intro">Canvas is initialized and ready for the game loop.</p>
+        <p class="intro">Calibrate your webcam, guide Pac-Man with head movements, and clear every pellet.</p>
       </section>
 
-      <div class="canvas-frame">
-        <canvas id="gameCanvas" width="672" height="672" aria-label="NeckPac game canvas"></canvas>
+      <section class="hud" aria-label="Game status">
+        <span data-score>Score: 0</span>
+        <span data-pellets>Dots ready</span>
+        <span data-status>Press Start Game to request camera access.</span>
+      </section>
+
+      <div class="game-stage">
+        <div class="canvas-frame">
+          <canvas id="gameCanvas" width="672" height="672" aria-label="NeckPac game canvas"></canvas>
+        </div>
+
+        <video id="cameraPreview" class="camera-preview" autoplay muted playsinline aria-label="Camera preview"></video>
+
+        <section class="overlay" data-screen="start" aria-label="Start screen">
+          <div class="panel">
+            <h2>Ready for a neck break?</h2>
+            <p>Look straight for a quick calibration, then turn your head left, right, up, or down to move.</p>
+            <ul>
+              <li>Eat every dot for 10 points each.</li>
+              <li>Use Arrow keys or WASD as a testing fallback.</li>
+              <li>Your camera stays in this browser.</li>
+            </ul>
+            <button type="button" data-start>Start Game</button>
+          </div>
+        </section>
+
+        <section class="overlay" data-screen="calibration" hidden aria-live="polite" aria-label="Calibration screen">
+          <div class="panel">
+            <h2>Look straight at the camera</h2>
+            <p>Hold still while NeckPac learns your neutral head position.</p>
+            <div class="progress" data-progress style="--progress: 0%">0%</div>
+          </div>
+        </section>
+
+        <section class="overlay" data-screen="error" hidden role="alert" aria-label="Camera error screen">
+          <div class="panel">
+            <h2>Camera unavailable</h2>
+            <p data-error-message>Webcam permission was denied or tracking failed.</p>
+            <button type="button" data-start>Try Again</button>
+          </div>
+        </section>
+
+        <section class="overlay" data-screen="win" hidden aria-label="Win screen">
+          <div class="panel">
+            <h2>You Win!</h2>
+            <p data-final-score>Final Score: 0</p>
+            <button type="button" data-start>Play Again</button>
+          </div>
+        </section>
       </div>
     </main>
 
