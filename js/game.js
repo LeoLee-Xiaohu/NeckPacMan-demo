@@ -1,8 +1,11 @@
+import { MAZE_LAYOUT, MAZE_SIZE, isWall } from './maze.js';
+
 export class Game {
   constructor(canvas, context) {
     this.canvas = canvas;
     this.context = context;
     this.elapsedTime = 0;
+    this.maze = MAZE_LAYOUT;
   }
 
   update(deltaTime) {
@@ -11,23 +14,41 @@ export class Game {
 
   render() {
     const { width, height } = this.canvas;
-    const tileSize = width / 21;
+    const tileSize = width / MAZE_SIZE;
     const pulse = (Math.sin(this.elapsedTime / 220) + 1) / 2;
 
     this.context.clearRect(0, 0, width, height);
     this.context.fillStyle = '#000000';
     this.context.fillRect(0, 0, width, height);
 
-    this.drawGrid(tileSize);
+    this.drawMaze(tileSize);
     this.drawPlayer(width / 2, height / 2, tileSize * (0.42 + pulse * 0.04));
     this.drawStatus();
   }
 
-  drawGrid(tileSize) {
+  drawMaze(tileSize) {
+    this.maze.forEach((row, rowIndex) => {
+      row.forEach((tile, columnIndex) => {
+        const x = columnIndex * tileSize;
+        const y = rowIndex * tileSize;
+
+        if (isWall(tile)) {
+          this.context.fillStyle = '#1d4ed8';
+          this.context.fillRect(x, y, tileSize, tileSize);
+          return;
+        }
+
+        this.context.fillStyle = '#f8fafc';
+        this.context.beginPath();
+        this.context.arc(x + tileSize / 2, y + tileSize / 2, tileSize * 0.08, 0, Math.PI * 2);
+        this.context.fill();
+      });
+    });
+
     this.context.strokeStyle = 'rgba(29, 78, 216, 0.42)';
     this.context.lineWidth = 1;
 
-    for (let index = 0; index <= 21; index += 1) {
+    for (let index = 0; index <= MAZE_SIZE; index += 1) {
       const position = index * tileSize;
 
       this.context.beginPath();
