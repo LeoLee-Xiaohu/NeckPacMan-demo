@@ -1,3 +1,5 @@
+import { MAZE_SIZE, drawMaze } from './maze.js';
+
 export class Game {
   constructor(canvas, context) {
     this.canvas = canvas;
@@ -11,35 +13,14 @@ export class Game {
 
   render() {
     const { width, height } = this.canvas;
-    const tileSize = width / 21;
+    const tileSize = width / MAZE_SIZE;
     const pulse = (Math.sin(this.elapsedTime / 220) + 1) / 2;
 
     this.context.clearRect(0, 0, width, height);
-    this.context.fillStyle = '#000000';
-    this.context.fillRect(0, 0, width, height);
 
-    this.drawGrid(tileSize);
+    drawMaze(this.context, this.canvas);
     this.drawPlayer(width / 2, height / 2, tileSize * (0.42 + pulse * 0.04));
     this.drawStatus();
-  }
-
-  drawGrid(tileSize) {
-    this.context.strokeStyle = 'rgba(29, 78, 216, 0.42)';
-    this.context.lineWidth = 1;
-
-    for (let index = 0; index <= 21; index += 1) {
-      const position = index * tileSize;
-
-      this.context.beginPath();
-      this.context.moveTo(position, 0);
-      this.context.lineTo(position, this.canvas.height);
-      this.context.stroke();
-
-      this.context.beginPath();
-      this.context.moveTo(0, position);
-      this.context.lineTo(this.canvas.width, position);
-      this.context.stroke();
-    }
   }
 
   drawPlayer(x, y, radius) {
