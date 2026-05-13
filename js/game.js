@@ -57,6 +57,6 @@ export class Game {
     this.context.fillText('Score: 0', 24, 36);
     this.context.fillStyle = '#94a3b8';
     this.context.font = '14px ui-sans-serif, system-ui, sans-serif';
-    this.context.fillText('Canvas ready', 24, 60);
+    this.context.fillText('Neutral baseline calibrated', 24, 60);
   }
 }
