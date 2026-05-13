@@ -11,14 +11,38 @@
       <section class="hero">
         <p class="eyebrow">NeckPac POC</p>
         <h1 id="app-title">Exercise your neck, eat the dots.</h1>
-        <p class="intro">Canvas is initialized and ready for the game loop.</p>
+        <p class="intro">Canvas and webcam face tracking are ready for the SCRUM-75 POC.</p>
       </section>
 
-      <div class="canvas-frame">
-        <canvas id="gameCanvas" width="672" height="672" aria-label="NeckPac game canvas"></canvas>
-      </div>
+      <section class="play-area" aria-label="NeckPac play area">
+        <div class="canvas-frame">
+          <canvas id="gameCanvas" width="672" height="672" aria-label="NeckPac game canvas"></canvas>
+        </div>
+
+        <aside class="debug-panel" aria-labelledby="debug-title">
+          <h2 id="debug-title">Face Mesh Debug</h2>
+          <p id="trackingStatus" class="tracking-status">Loading MediaPipe Face Mesh…</p>
+          <div class="video-frame">
+            <video id="cameraVideo" playsinline muted aria-label="Webcam preview"></video>
+            <canvas id="meshCanvas" aria-label="Face landmark debug canvas"></canvas>
+          </div>
+          <dl class="debug-stats">
+            <div>
+              <dt>Landmarks</dt>
+              <dd id="landmarkCount">0</dd>
+            </div>
+            <div>
+              <dt>Camera</dt>
+              <dd id="cameraSize">Not started</dd>
+            </div>
+          </dl>
+        </aside>
+      </section>
     </main>
 
+    <script async src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+    <script async src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"></script>
+    <script async src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js"></script>
     <script type="module" src="js/main.js"></script>
   </body>
 </html>

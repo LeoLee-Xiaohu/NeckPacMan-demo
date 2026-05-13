@@ -1,6 +1,6 @@
 # NeckPacMan-demo
 
-NeckPac is a browser-based Pac-Man style proof of concept controlled by head movement. This initial scaffold sets up the static web app structure, canvas rendering, and a 60fps `requestAnimationFrame` game loop.
+NeckPac is a browser-based Pac-Man style proof of concept controlled by head movement. This scaffold sets up the static web app structure, canvas rendering, a 60fps `requestAnimationFrame` game loop, and the SCRUM-75 webcam tracking foundation.
 
 ## Project Structure
 
@@ -31,4 +31,6 @@ Serve the repository with any static file server, then open the shown URL in a b
 python3 -m http.server 8000
 ```
 
-The canvas should render immediately. Open DevTools to see `loop running` logged from the animation loop.
+The canvas should render immediately. Open DevTools to inspect tracker status and landmark logs.
+
+The browser will request webcam permission on load. MediaPipe Face Mesh is loaded asynchronously from CDN scripts in `index.html`, then `js/tracker.js` starts the camera stream and logs detected face landmarks in DevTools. The debug panel mirrors the webcam preview, draws landmark overlays, and keeps the overlay canvas sized to the active video aspect ratio.
