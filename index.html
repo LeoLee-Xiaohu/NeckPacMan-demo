@@ -14,8 +14,18 @@
         <p class="intro">Canvas is initialized and ready for the game loop.</p>
       </section>
 
-      <div class="canvas-frame">
-        <canvas id="gameCanvas" width="672" height="672" aria-label="NeckPac game canvas"></canvas>
+      <div class="play-surface">
+        <div class="canvas-frame">
+          <canvas id="gameCanvas" width="672" height="672" aria-label="NeckPac game canvas"></canvas>
+        </div>
+
+        <aside class="tracking-panel" aria-labelledby="tracking-title">
+          <div class="tracking-copy">
+            <h2 id="tracking-title">Tracking Preview</h2>
+            <p>Reserved for webcam feedback during calibration.</p>
+          </div>
+          <video id="trackingVideo" class="tracking-video" autoplay playsinline muted aria-label="Hidden webcam tracking preview"></video>
+        </aside>
       </div>
     </main>
 
